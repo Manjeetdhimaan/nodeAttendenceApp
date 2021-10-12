@@ -1,0 +1,70 @@
+<% include ./partials/navbar%>
+<div class='container'>
+
+
+    <div class='row'>
+        
+        <div class='col-sm-4'>
+
+             <div> <strong  class='lead'> Hello, <%=user.name.toUpperCase()%> </strong>  
+                <form class='' action ='/user/<%=user.id%>/enter' method='POST'>
+                    <button class='btn btn-success' type="submit">Check IN</button>   
+                </form>
+             </div> 
+          
+            <br><br>
+                <a href="/" class='btn btn-primary'>
+                    <span class='glyphicon glyphicon-chevron-left'></span> BACK 
+                </a>
+                <br><br>
+                <a href = '/user/<%=user._id%>/exit' class='btn btn-warning'>Proceed to CheckOut  <span class='glyphicon glyphicon-chevron-right'></a>
+            
+        </div>
+        <div class='col-sm-8'>
+            <div class='row text-center'>
+                <p class='lead'>Overview   <a href="/user/<%=user.id%>/overview" class='btn btn-success'>Download PDF  <span class='glyphicon glyphicon-download'></span></a></p> 
+            
+                    <p>Total work Hours :<%=hours%> Hours</p>
+               
+                <table class='table table-bordered table-hover table-striped table-responsive '>
+                    <thead>
+                        <th>Date</th>
+                        <th>Entry time</th>
+                        <th>Exit time</th>
+                        <th>Exit reason</th>
+                    </thead>
+                    <tbody>
+                    <%user.attendance.forEach(a=>{%>
+                       <tr>
+                        <td><%=a.date.toDateString()%></td>
+                        <td><%=moment(a.entry).format('HH:mm:ss')%></td>
+                        <td>
+                            <%if(a.exit.time){%>
+                               <%=moment(a.exit.time).format('HH:mm:ss')%> 
+                            <%}%>
+                        </td>
+                        <td>
+                        <% if (a.exit.reason === 1){%>
+                            General
+                        <%}else if (a.exit.reason === 2){%>
+                            Vacation
+                        <%}else if(a.exit.reason === 3){%>
+                            Doctor
+                        <%}%>
+
+
+</td>
+                       </tr> 
+                    <%})%>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    
+
+   
+</div>
+<% include ./partials/footer%>
