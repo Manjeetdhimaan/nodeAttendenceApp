@@ -155,16 +155,16 @@ router.post('/users', async (req,res)=>{
       if(user.attendance && user.attendance.length > 0){
       //for a new checkin attendance, the last checkin
       //must be at least 24hrs less than the new checkin time;
-          const lastCheckIn = user.attendance[user.attendance.length - 1];
+          const lastCheckIn = user.attendance[user.attendance.length - 1];  
           const lastCheckInTimestamp = lastCheckIn.date.getTime();
           // console.log(Date.now(), lastCheckInTimestamp);
           let nextMidNight = new Date();
           nextMidNight.setHours(24,0,0,0);
-          // let pastMidNight = new Date();
-          // pastMidNight.setHours(0,0,0,0);
+          let pastMidNight = new Date();
+          pastMidNight.setHours(0,0,0,0);
           const lastAttendance = user.attendance[user.attendance.length - 1];
           console.log(lastAttendance.entry<nextMidNight)
-          if (nextMidNight<lastAttendance.entry) {
+          if (pastMidNight>lastAttendance.entry) {
           console.log('timestamp', lastCheckInTimestamp + 10000000,   'date.now', Date.now())
             user.attendance.push(data);
             await user.save();
