@@ -158,7 +158,14 @@ router.post('/users', async (req,res)=>{
           const lastCheckIn = user.attendance[user.attendance.length - 1];
           const lastCheckInTimestamp = lastCheckIn.date.getTime();
           // console.log(Date.now(), lastCheckInTimestamp);
-          if (Date.now() > lastCheckInTimestamp + 100) {
+          let nextMidNight = new Date();
+          nextMidNight.setHours(24,0,0,0);
+          // let pastMidNight = new Date();
+          // pastMidNight.setHours(0,0,0,0);
+          const lastAttendance = user.attendance[user.attendance.length - 1];
+          console.log(lastAttendance.entry<nextMidNight)
+          if (nextMidNight<lastAttendance.entry) {
+          console.log('timestamp', lastCheckInTimestamp + 10000000,   'date.now', Date.now())
             user.attendance.push(data);
             await user.save();
             req.flash('success','You have been signed in for today');
